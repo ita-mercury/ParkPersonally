@@ -9,10 +9,10 @@ pipeline {
     }
     stage('test') {
       steps {
-        sh 'sudo systemctl stop nginx.service'
-        sh 'sudo rm  -rf /usr/share/nginx/html/*'
+        sh 'systemctl stop nginx.service'
+        sh 'rm  -rf /usr/share/nginx/html/*'
         sh 'mv -f ./dist/* /usr/share/nginx/html/*'
-        sh 'sudo systemctl start nginx.service'
+        sh 'systemctl start nginx.service'
       }
     }
   }
