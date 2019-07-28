@@ -14,7 +14,7 @@
                         :filter-method="filterMethod"
                         @on-change="handleChange2" 
                         ></Transfer>
-            <Transfer></Transfer>
+            <Transfer :titles="title1"></Transfer>
             </Col>
         </Row>
     </div>
@@ -28,7 +28,8 @@
             return {
                 data: this.getData(),
                 targetKeys: this.getTargetKeys(),
-                title:['可选停车场','已有停车场']
+                title:['可选停车场','已有停车场'],
+                title1:['可选tag','已有tag']
             }
         },
         methods: {
