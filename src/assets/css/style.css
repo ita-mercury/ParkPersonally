@@ -1,0 +1,45 @@
+.layout .layout-header{
+    background: #363e4f;
+}
+
+.layout .ivu-layout-sider-children{
+    border-top: 1px solid #515a6e;
+}
+
+.layout{
+    height: 100%;
+}
+
+.ivu-layout{
+    height: 100%;
+}
+
+.layout-header-logo{
+    width: 3.5em;
+    vertical-align: middle;
+}
+
+
+.layout-header-logo-div{
+    float: left;
+}
+
+.layout-header-user-div{
+    float: right;
+}
+
+.layout-header-user-avatar{
+    margin-right: 7px;
+}
+
+.layout-header-user-username{
+    color: white;
+    font-size: 15px;
+    float: right;
+}
+
+.parking-lot-div .new-btn{
+    position: relative;
+    right: 50%;
+    bottom: 50%;
+}
