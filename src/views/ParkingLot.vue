@@ -5,8 +5,17 @@
       <template slot-scope="{ row }" slot="id">
         <strong>{{ row.id }}</strong>
       </template>
+      <template slot-scope="{ row, index }" slot="name">
+        <Input size="" v-model="parkingLots[index].name" v-if="row.isEdit"/>
+        <span v-else>{{row.name}}</span>
+      </template>
+      <template slot-scope="{ row, index }" slot="capacity">
+        <InputNumber min="0" class="input-number" max="1000" v-model="parkingLots[index].capacity" v-if="row.isEdit"/>
+        <span v-else>{{row.capacity}}</span>
+      </template>
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">修改</Button>
+        <Button type="primary" size="small" style="margin-right: 5px" @click="edit(index)" v-if="!row.isEdit">修改</Button>
+        <Button type="success" size="small" style="margin-right: 5px" @click="save(index)" v-else>保存</Button>
         <Button type="error" size="small" @click="remove(index)">注销</Button>
       </template>
     </Table>
@@ -27,10 +36,12 @@ export default {
         },
         {
           title: '名字',
+          slot: 'name',
           key: 'name'
         },
         {
           title: '大小',
+          slot: 'capacity',
           key: 'capacity',
           sortable: true
         },
@@ -96,14 +107,23 @@ export default {
     }
   },
   methods: {
-    show (index) {
-      this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
-      })
+    edit (index) {
+      let parkingLot = this.parkingLots[index]
+      parkingLot['isEdit'] = true
+      this.$set(this.parkingLots, index, parkingLot)
+    },
+    save (index) {
+      let parkingLot = this.parkingLots[index]
+      parkingLot['isEdit'] = false
+      this.$set(this.parkingLots, index, parkingLot)
     },
     remove (index) {
-      this.data6.splice(index, 1)
+      this.parkingLots.splice(index, 1)
+    }
+  },
+  mounted () {
+    for (let i = 0; i < this.parkingLots.length; i++) {
+      this.parkingLots[i]['isEdit'] = false
     }
   }
 }

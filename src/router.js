@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Home from './views/Home'
 import ParkingLot from './views/ParkingLot'
 import ParkingBoy from './views/ParkingBoy'
+import Employee from './views/Employee'
+import ParkingLotDashboard from './views/ParkingLotDashboard'
+import ParkingOrder from './views/ParkingOrder'
 Vue.use(Router)
 
 export default new Router({
@@ -15,7 +18,10 @@ export default new Router({
       component: Home,
       children: [
         { path: '/parkingLot', name: 'parkingLot', component: ParkingLot },
-        { path: '/parkingBoy', name: 'parkingBoy', component: ParkingBoy }
+        { path: '/parkingBoy', name: 'parkingBoy', component: ParkingBoy },
+        { path: '/employee', name: 'employee', component: Employee },
+        { path: '/parkingLotDashboard', name: 'parkingLotDashboard', component: ParkingLotDashboard },
+        { path: '/parkingOrder', name: 'parkingOrder', component: ParkingOrder }
       ]
     }
   ]
