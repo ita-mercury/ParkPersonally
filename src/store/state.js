@@ -2,7 +2,8 @@ const state = {
   manager: {
     id: 1
   },
-  parkingLots: []
+  parkingLots: [],
+  parkingBoys: []
 }
 
 export default state

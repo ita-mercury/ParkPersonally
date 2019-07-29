@@ -1,9 +1,12 @@
 <template>
   <div class="parking-lot-div">
-    <Table border :columns="columns" :data="data">
+    <Table border :columns="columns" :data="parkingBoys">
+      <template slot-scope="{ row }" slot="status">
+        <span>{{PublicContants.ParkingBoyStatus[row.status]}}</span>
+      </template>
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="modify(index)">修改</Button>
-        <Button type="error" size="small" @click="frozen(index)">注销</Button>
+        <Button type="error" size="small" @click="freeze(index)" v-if="!(row.status === 0)">注销</Button>
+        <Button type="success" size="small" style="margin-right: 5px" @click="unfreeze(index)" v-else>解冻</Button>
       </template>
     </Table>
     <Button type="error" class="new-btn" size="large">+</Button>
@@ -17,6 +20,7 @@ export default {
   components: { TransferLot, TransferTag },
   data () {
     return {
+      parkingBoys: [],
       columns: [
         {
           title: '员工id',
@@ -24,29 +28,30 @@ export default {
         },
         {
           title: '员工名字',
-          key: 'parkingBoyName'
+          key: 'name'
         },
         {
           title: '员工号',
-          key: 'parkingBoyNumber'
+          key: 'number'
         },
         {
-          title: '管理标签',
-          type: 'expand',
-          key: 'tag',
-          width: 100,
-          render: (h, params) => {
-            return h(TransferTag, {
-              props: {
-                row: params.row
-              }
-            })
-          }
+          title: '状态',
+          slot: 'status',
+          key: 'status'
         },
-        {
-          title: '员工标签',
-          key: 'tags'
-        },
+        // {
+        //   title: '管理标签',
+        //   type: 'expand',
+        //   key: 'tag',
+        //   width: 100,
+        //   render: (h, params) => {
+        //     return h(TransferTag, {
+        //       props: {
+        //         row: params.row
+        //       }
+        //     })
+        //   }
+        // },
         {
           title: '管理停车场',
           type: 'expand',
@@ -67,19 +72,73 @@ export default {
           width: 150,
           align: 'center'
         }
-      ],
-      data: this.$store.state.parkingBoyOfManager
+      ]
     }
   },
   mounted () {
-    this.$store.dispatch('initParkingBoy', this.$store.state.manager.id)
+    this.axios.get('/managers/' + this.$store.state.manager.id + '/parking-boys').then((response) => {
+      console.log(response)
+      this.$store.commit('getParkingBoys', response)
+      this.parkingBoys = this.$store.state.parkingBoys
+    }).catch((error) => {
+      console.log(error)
+    })
   },
   methods: {
-    modify (index) {
-      // this.$store.dispatch('')
+    edit (index) {
+      let parkingBoy = this.parkingBoys[index]
+      parkingBoy['isEdit'] = true
+      this.$set(this.parkingBoys, index, parkingBoy)
     },
-    delete (index) {
-      // this.$store.dispatch('')
+    save (index) {
+      let parkingBoy = this.parkingBoys[index]
+      parkingBoy['isEdit'] = false
+      this.$set(this.parkingBoys, index, parkingBoy)
+      this.axios.put('/parking-lots/' + parkingBoy.id, parkingBoy).then((response) => {
+        console.log(JSON.stringify(response.data))
+      })
+    },
+    freeze (index) {
+      this.$Modal.confirm({
+        title: 'Title',
+        content: '<p>你确定要注销这位哥吗?</p><p>你真的确定要注销这位哥吗?</p>',
+        onOk: () => {
+          this.$store.commit('freezeParkingBoy', index)
+          let parkingBoy = this.parkingBoys[index]
+          console.log('----------------')
+          console.log(parkingBoy)
+          console.log('----------------')
+          this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
+          }).catch((error) => {
+            console.log(error)
+          })
+          this.$Message.info('你把这位哥注销了')
+        },
+        onCancel: () => {
+          this.$Message.info('你饶了他一命')
+        }
+      })
+    },
+    unfreeze (index) {
+      this.$Modal.confirm({
+        title: 'Title',
+        content: '<p>你确定要解冻这位哥吗?</p><p>你真的确定要解冻这位哥吗?</p>',
+        onOk: () => {
+          this.$store.commit('unFreezeParkingBoy', index)
+          let parkingBoy = this.parkingBoys[index]
+          console.log('----------------')
+          console.log(parkingBoy)
+          console.log('----------------')
+          this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
+          }).catch((error) => {
+            console.log(error)
+          })
+          this.$Message.info('你把这位哥解冻了')
+        },
+        onCancel: () => {
+          this.$Message.info('你为什么不放过他')
+        }
+      })
     }
   }
 }

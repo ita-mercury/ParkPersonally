@@ -7,11 +7,12 @@
         <strong>{{ row.id }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="name">
-        <Input size="" v-model="parkingLotsOfManager[index].name" v-if="row.isEdit"/>
-        <span v-else>{{row.name}}</span>
+<!--        <Input  v-model="parkingLotsOfManager[index].name" v-if="row.isEdit"/>-->
+<!--        <span v-else>{{row.name}}</span>-->
+        <span >{{row.name}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="capacity">
-        <InputNumber min="0" class="input-number" max="1000" v-model="parkingLotsOfManager[index].capacity" v-if="row.isEdit"/>
+        <InputNumber :min="0" class="input-number" :max="1000" v-model="parkingLotsOfManager[index].capacity" v-if="row.isEdit"/>
         <span v-else>{{row.capacity}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="action">
@@ -60,28 +61,17 @@ export default {
   },
   methods: {
     edit (index) {
-      let parkingLot = this.parkingLots[index]
+      let parkingLot = this.parkingLotsOfManager[index]
       parkingLot['isEdit'] = true
-      this.$set(this.parkingLots, index, parkingLot)
+      this.$set(this.parkingLotsOfManager, index, parkingLot)
     },
     save (index) {
-      let parkingLot = this.parkingLots[index]
+      let parkingLot = this.parkingLotsOfManager[index]
       parkingLot['isEdit'] = false
-      this.$set(this.parkingLots, index, parkingLot)
-      // this.axios.put('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
-      //   AlertModule.show({
-      //     title: '您好',
-      //     content: '修改完成',
-      //     onShow () {
-      //       // console.log('Module: I\'m showing')
-      //     },
-      //     onHide () {
-      //       // console.log('Module: I\'m hiding now')
-      //       // self.$router.push({name: 'order'})
-      //     }
-      //   })
-      //   console.log(JSON.stringify(response.data))
-      // })
+      this.$set(this.parkingLotsOfManager, index, parkingLot)
+      this.axios.put('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
+        console.log(JSON.stringify(response.data))
+      })
     },
     remove (index) {
       this.parkingLots.splice(index, 1)
@@ -93,7 +83,7 @@ export default {
     }
   },
   mounted () {
-    this.axios.get('/manager/' + this.manager.id + '/parking-lots').then((response) => {
+    this.axios.get('/managers/' + this.manager.id + '/parking-lots').then((response) => {
       for (let i = 0; i < response.data.length; i++) {
         response.data[i]['isEdit'] = false
       }
