@@ -4,7 +4,7 @@
       <header-view></header-view>
       <Layout>
         <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-          <Menu @on-select="selectItem" active-name="employee" theme="dark" width="auto">
+          <Menu @on-select="selectItem" active-name="parkingLot" theme="dark" width="auto">
             <MenuItem name="employee">
               <Icon type="ios-navigate"></Icon>
               <span>员工管理</span>

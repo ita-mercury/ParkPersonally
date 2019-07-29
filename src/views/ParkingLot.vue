@@ -40,7 +40,7 @@ export default {
           key: 'name'
         },
         {
-          title: '大小',
+          title: '总容量',
           slot: 'capacity',
           key: 'capacity',
           sortable: true
