@@ -10,8 +10,8 @@ pipeline {
     stage('test') {
       steps {
         sh 'systemctl stop nginx.service'
-        sh 'rm  -rf /usr/share/nginx/html/*'
-        sh 'mv -f ./dist/* /usr/share/nginx/html/'
+        sh 'rm -rf /usr/share/nginx/html/manager/*'
+        sh 'mv -f ./dist/* /usr/share/nginx/html/manager'
         sh 'systemctl start nginx.service'
       }
     }
