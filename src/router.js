@@ -17,7 +17,6 @@ export default new Router({
         { path: '/parkingLot', name: 'parkingLot', component: ParkingLot },
         { path: '/parkingBoy', name: 'parkingBoy', component: ParkingBoy }
       ]
-    },
-    
+    }
   ]
 })
