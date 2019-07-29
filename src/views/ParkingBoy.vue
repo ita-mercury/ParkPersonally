@@ -12,9 +12,9 @@
 
 <script>
 import TransferLot from '../components/TransferParkingLot'
-
+import TransferTag from '../components/TransferTag'
 export default {
-  components: { TransferLot },
+  components: { TransferLot, TransferTag },
   data () {
     return {
       columns: [
@@ -31,12 +31,26 @@ export default {
           key: 'parkingBoyNumber'
         },
         {
+          title: '管理标签',
+          type: 'expand',
+          key: 'tag',
+          width: 100,
+          render: (h, params) => {
+            return h(TransferTag, {
+              props: {
+                row: params.row
+              }
+            })
+          }
+        },
+        {
           title: '员工标签',
           key: 'tags'
         },
         {
           title: '管理停车场',
           type: 'expand',
+          key: 'parkingLot',
           width: 100,
           render: (h, params) => {
             return h(TransferLot, {
@@ -45,6 +59,7 @@ export default {
               }
             })
           }
+
         },
         {
           title: 'Action',
@@ -56,12 +71,15 @@ export default {
       data: this.$store.state.parkingBoyOfManager
     }
   },
+  mounted () {
+    this.$store.dispatch('initParkingBoy', this.$store.state.manager.id)
+  },
   methods: {
     modify (index) {
-      this.$store.dispatch('')
+      // this.$store.dispatch('')
     },
     delete (index) {
-      this.$store.dispatch('')
+      // this.$store.dispatch('')
     }
   }
 }
