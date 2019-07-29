@@ -1,16 +1,17 @@
 <template>
   <div class="parking-lot-div">
-    <Input size="large" class="parking-lot-div-input-search" search enter-button placeholder="Search By Name..." />
-    <Table border :columns="columns" :data="parkingLots">
+<!--    <Input size="large" class="parking-lot-div-input-search" :bind="searchWord"  search enter-button placeholder="Search By Name..." />-->
+
+    <Table  border :columns="columns" :data="parkingLotsOfManager">
       <template slot-scope="{ row }" slot="id">
         <strong>{{ row.id }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="name">
-        <Input size="" v-model="parkingLots[index].name" v-if="row.isEdit"/>
+        <Input size="" v-model="parkingLotsOfManager[index].name" v-if="row.isEdit"/>
         <span v-else>{{row.name}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="capacity">
-        <InputNumber min="0" class="input-number" max="1000" v-model="parkingLots[index].capacity" v-if="row.isEdit"/>
+        <InputNumber min="0" class="input-number" max="1000" v-model="parkingLotsOfManager[index].capacity" v-if="row.isEdit"/>
         <span v-else>{{row.capacity}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="action">
@@ -19,16 +20,19 @@
         <Button type="error" size="small" @click="remove(index)">注销</Button>
       </template>
     </Table>
-    <div class="page-div">
-      <Page :total="100" />
-    </div>
-    <Button type="error" class="new-btn" size="large">+</Button>
+<!--    class="page-div">-->
+<!--    <Page :total="100" />-->
+<!--  </div>-->
+<!--  <Button type="error" class="new-btn" size="large">+</Button><div-->
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
+      searchWord: '',
+      parkingLotsOfManager: [],
+      manager: this.$store.state.manager,
       columns: [
         {
           title: 'id',
@@ -51,58 +55,6 @@ export default {
           width: 150,
           align: 'center'
         }
-      ],
-      parkingLots: [
-        {
-          id: 1,
-          name: 'John Brown',
-          capacity: 18
-        },
-        {
-          id: 2,
-          name: 'Jim Green',
-          capacity: 24
-        },
-        {
-          id: 3,
-          name: 'Joe Black',
-          capacity: 30
-        },
-        {
-          id: 4,
-          name: 'Jon Snow',
-          capacity: 26
-        },
-        {
-          id: 5,
-          name: 'Jon Snow',
-          capacity: 26
-        },
-        {
-          id: 6,
-          name: 'Jon Snow',
-          capacity: 26
-        },
-        {
-          id: 7,
-          name: 'Jon Snow',
-          capacity: 26
-        },
-        {
-          id: 8,
-          name: 'Jon Snow',
-          capacity: 26
-        },
-        {
-          id: 9,
-          name: 'Jon Snow',
-          capacity: 26
-        },
-        {
-          id: 10,
-          name: 'Jon Snow',
-          capacity: 26
-        }
       ]
     }
   },
@@ -116,15 +68,44 @@ export default {
       let parkingLot = this.parkingLots[index]
       parkingLot['isEdit'] = false
       this.$set(this.parkingLots, index, parkingLot)
+      // this.axios.put('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
+      //   AlertModule.show({
+      //     title: '您好',
+      //     content: '修改完成',
+      //     onShow () {
+      //       // console.log('Module: I\'m showing')
+      //     },
+      //     onHide () {
+      //       // console.log('Module: I\'m hiding now')
+      //       // self.$router.push({name: 'order'})
+      //     }
+      //   })
+      //   console.log(JSON.stringify(response.data))
+      // })
     },
     remove (index) {
       this.parkingLots.splice(index, 1)
+    },
+    search () {
+      this.parkingLots = this.parkingLots.filter(item => {
+        item.name.indexOf(this.searchWord, 0)
+      })
     }
   },
   mounted () {
-    for (let i = 0; i < this.parkingLots.length; i++) {
-      this.parkingLots[i]['isEdit'] = false
-    }
+    this.axios.get('/manager/' + this.manager.id + '/parking-lots').then((response) => {
+      for (let i = 0; i < response.data.length; i++) {
+        response.data[i]['isEdit'] = false
+      }
+      this.$store.commit('getParkingLots', response)
+      console.log('-------------')
+      console.log(JSON.stringify(this.$store.state.parkingLots))
+      console.log('-------------')
+      this.parkingLotsOfManager = this.$store.state.parkingLots
+    }).catch((error) => {
+      console.log(error)
+    })
   }
+
 }
 </script>
