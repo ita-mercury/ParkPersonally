@@ -1,9 +1,9 @@
 <template>
-    <div class="parking-lot-div">
+  <div class="parking-lot-div">
     <Table border :columns="columns" :data="data">
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>
-        <Button type="error" size="small" @click="remove(index)">Delete</Button>
+        <Button type="primary" size="small" style="margin-right: 5px" @click="modify(index)">修改</Button>
+        <Button type="error" size="small" @click="frozen(index)">注销</Button>
       </template>
     </Table>
     <Button type="error" class="new-btn" size="large">+</Button>
@@ -11,38 +11,40 @@
 </template>
 
 <script>
-import expandRow from '../components/Table-expand.vue'
+import TransferLot from '../components/TransferParkingLot'
+
 export default {
-  components: { expandRow: expandRow },
+  components: { TransferLot },
   data () {
     return {
       columns: [
         {
+          title: '员工id',
+          key: 'id'
+        },
+        {
+          title: '员工名字',
+          key: 'parkingBoyName'
+        },
+        {
+          title: '员工号',
+          key: 'parkingBoyNumber'
+        },
+        {
+          title: '员工标签',
+          key: 'tags'
+        },
+        {
+          title: '管理停车场',
           type: 'expand',
-          width: 50,
+          width: 100,
           render: (h, params) => {
-            return h(expandRow, {
+            return h(TransferLot, {
               props: {
                 row: params.row
               }
             })
           }
-        },
-        {
-          title: 'id',
-          key: 'id'
-        },
-        {
-          title: 'Name',
-          key: 'name'
-        },
-        {
-          title: 'Phone',
-          key: 'phone'
-        },
-        {
-          title: 'Status',
-          key: 'status'
         },
         {
           title: 'Action',
@@ -51,35 +53,15 @@ export default {
           align: 'center'
         }
       ],
-      data: [
-        {
-          id: 1,
-          name: 'Matthew',
-          phone: 18888888,
-          status: 1
-        },
-        {
-          id: 2,
-          name: 'Dillon',
-          phone: 16666666,
-          status: 2,
-          parkingLot: ['lot1', 'lot2']
-        },
-        {
-          id: 3,
-          name: 'Sharon',
-          phone: 19999999,
-          status: 2,
-          parkingLot: ['lot1', 'lot2']
-        },
-        {
-          id: 4,
-          name: 'Eric',
-          phone: 17777777,
-          status: 1,
-          parkingLot: ['lot1', 'lot2']
-        }
-      ]
+      data: this.$store.state.parkingBoyOfManager
+    }
+  },
+  methods: {
+    modify (index) {
+      this.$store.dispatch('')
+    },
+    delete (index) {
+      this.$store.dispatch('')
     }
   }
 }
@@ -87,7 +69,7 @@ export default {
 </script>
 
 <style>
-    .expand-row{
-        margin-bottom: 16px;
-    }
+  .expand-row{
+    margin-bottom: 16px;
+  }
 </style>
