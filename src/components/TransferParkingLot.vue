@@ -22,42 +22,55 @@
 <script>
 export default {
   props: {
-    parkingBoy: Object
+    row: Object
   },
   data () {
     return {
       parkingLotData: this.getParkingLotData(),
       targetKeys: this.getTargetKeys(),
       title: ['可选停车场', '已有停车场'],
-      parkingLotOfManager: this.$store.state.parkingLotOfManager
+      parkingLots: []
     }
   },
   methods: {
     getParkingLotData () {
-      // let allLotFormat = []
-      // this.parkingLotOfManager.map(item => {
-      // })
-      let allParkingLot = [
-        { 'key': '1', 'label': 'lot1' },
-        { 'key': '2', 'label': 'lot2' },
-        { 'key': '3', 'label': 'lot3' }
-      ]
-      return allParkingLot
+      this.parkingLots = this.$store.state.parkingLots
+      let allLotsFormat = []
+      this.parkingLots.forEach(item => {
+        let lotsFormat = {}
+        lotsFormat.key = item.id
+        lotsFormat.label = item.name + ' (' + item.restCapacity + ')'
+        allLotsFormat.push(lotsFormat)
+      })
+
+      return allLotsFormat
     },
     getTargetKeys () {
-      // return this.$store.state.parkingBoys[]
-      //      .parkingLots.map(item => {
-      //     return item.parkingLotId
-      // })
-      return ['1']
+      let targetKey = []
+      this.row.parkingLots.forEach(item => {
+        targetKey.push(item.id)
+      })
+      return targetKey
     },
-    // getTagTargetKeys () {
 
-    //     return ["1"]
-    // },
     handleChange1 (newTargetKeys) {
-      // this.$store.dipatch('addLotToParkingBoy',newTargetKeys)
-      this.targetKeys = newTargetKeys// []
+      this.parkingLots = this.$store.state.parkingLots
+      this.targetKeys = newTargetKeys
+      console.log(newTargetKeys)
+      let parkingLots = []
+      parkingLots = this.parkingLots.filter((parkingLot) => {
+        return newTargetKeys.indexOf(parkingLot.id) > -1
+      })
+      let payload = {
+        id: this.row.id,
+        parkingLots: parkingLots
+      }
+      console.log(payload)
+      this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + this.row.id + '/parking-lots').then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
     },
 
     filterMethod (data, query) {
@@ -66,6 +79,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
     .expand-row{
         margin-bottom: 16px;
