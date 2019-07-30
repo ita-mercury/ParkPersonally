@@ -7,9 +7,9 @@
         <strong>{{ row.id }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="name">
-<!--        <Input  v-model="parkingLotsOfManager[index].name" v-if="row.isEdit"/>-->
-<!--        <span v-else>{{row.name}}</span>-->
-        <span >{{row.name}}</span>
+        <Input  v-model="parkingLotsOfManager[index].name" v-if="row.isEdit"/>
+        <span v-else>{{row.name}}</span>
+<!--        <span >{{row.name}}</span>-->
       </template>
       <template slot-scope="{ row, index }" slot="capacity">
         <InputNumber :min="0" class="input-number" :max="1000" v-model="parkingLotsOfManager[index].capacity" v-if="row.isEdit"/>
