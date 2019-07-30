@@ -39,20 +39,20 @@ export default {
           slot: 'status',
           key: 'status'
         },
-        {
-          title: '管理标签',
-          type: 'expand',
-          slot: 'tag',
-          key: 'tag',
-          width: 100,
-          render: (h, params) => {
-            return h(TransferTag, {
-              props: {
-                row: params.row
-              }
-            })
-          }
-        },
+        // {
+        //   title: '管理标签',
+        //   type: 'expand',
+        //   slot: 'tag',
+        //   key: 'tag',
+        //   width: 100,
+        //   render: (h, params) => {
+        //     return h(TransferTag, {
+        //       props: {
+        //         row: params.row
+        //       }
+        //     })
+        //   }
+        // },
         {
           title: '管理停车场',
           type: 'expand',
@@ -78,19 +78,13 @@ export default {
   },
   mounted () {
     this.axios.get('/managers/' + this.$store.state.manager.id + '/parking-boys').then((response) => {
-      console.log(response)
       this.$store.commit('getParkingBoys', response)
       this.parkingBoys = this.$store.state.parkingBoys
-    }).catch((error) => {
-      console.log(error)
-    })
+    }).catch(() => {})
     this.axios.get('/managers/' + this.$store.state.manager.id + '/parking-lots').then((response) => {
       this.$store.commit('getParkingLots', response)
-      console.log(JSON.stringify(response))
       this.parkingLots = this.$store.state.parkingLots
-    }).catch((error) => {
-      console.log(error)
-    })
+    }).catch(() => {})
   },
   methods: {
     edit (index) {
@@ -103,7 +97,6 @@ export default {
       parkingBoy['isEdit'] = false
       this.$set(this.parkingBoys, index, parkingBoy)
       this.axios.put('/parking-lots/' + parkingBoy.id, parkingBoy).then((response) => {
-        console.log(response.data)
       })
     },
     freeze (index) {
@@ -114,9 +107,7 @@ export default {
           this.$store.commit('freezeParkingBoy', index)
           let parkingBoy = this.parkingBoys[index]
           this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
-          }).catch((error) => {
-            console.log(error)
-          })
+          }).catch(() => {})
           this.$Message.info('你把这位哥注销了')
         },
         onCancel: () => {
@@ -132,9 +123,7 @@ export default {
           this.$store.commit('unFreezeParkingBoy', index)
           let parkingBoy = this.parkingBoys[index]
           this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
-          }).catch((error) => {
-            console.log(error)
-          })
+          }).catch(() => {})
           this.$Message.info('你把这位哥解冻了')
         },
         onCancel: () => {
