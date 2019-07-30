@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import HeaderView from '../components/Header'
+import HeaderView from '../../components/Header'
 export default {
   name: 'Home',
   components: {

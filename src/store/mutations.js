@@ -12,6 +12,9 @@ const mutations = {
   },
   unFreezeParkingBoy (state, index) {
     state.parkingBoys[index].status = 1
+  },
+  getTags (state, tags) {
+    state.AllTags = tags.data
   }
 }
 

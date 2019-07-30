@@ -52,21 +52,18 @@ export default {
       })
       return targetKey
     },
-
     handleChange1 (newTargetKeys) {
       this.parkingLots = this.$store.state.parkingLots
       this.targetKeys = newTargetKeys
       console.log(newTargetKeys)
       let parkingLots = []
-      parkingLots = this.parkingLots.filter((parkingLot) => {
-        return newTargetKeys.indexOf(parkingLot.id) > -1
+      newTargetKeys.forEach(item => {
+        let parkinglot = {}
+        parkinglot.id = item
+        parkingLots.push(parkinglot)
       })
-      let payload = {
-        id: this.row.id,
-        parkingLots: parkingLots
-      }
-      console.log(payload)
-      this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + this.row.id + '/parking-lots').then((response) => {
+      console.log(parkingLots)
+      this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + this.row.id + '/parking-lots', parkingLots).then((response) => {
         console.log(response)
       }).catch((error) => {
         console.log(error)

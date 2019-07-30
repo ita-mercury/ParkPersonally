@@ -3,7 +3,8 @@ const state = {
     id: 1
   },
   parkingLots: [],
-  parkingBoys: []
+  parkingBoys: [],
+  AllTags: []
 }
 
 export default state
