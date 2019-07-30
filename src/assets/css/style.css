@@ -71,3 +71,7 @@
 .parking-boy-div .ivu-table-wrapper{
     overflow: visible;
 }
+
+.parking-lot-dashboard-div .circle-card .ivu-card-head{
+    background-color: #fafafa;
+}
