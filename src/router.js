@@ -8,6 +8,11 @@ import ParkingLotDashboard from './views/manager/ParkingLotDashboard'
 import ParkingOrder from './views/manager/ParkingOrder'
 import PublicConstants from './constants/public'
 import AdminHome from './views/admin/Home'
+import AdminEmployee from './views/admin/Employee'
+import AdminParkingBoy from './views/admin/ParkingBoy'
+import AdminParkingLot from './views/admin/ParkingLot'
+import AdminParkingLotDashboard from './views/admin/ParkingLotDashboard'
+import AdminParkingOrder from './views/admin/ParkingOrder'
 
 Vue.use(Router)
 Vue.prototype.PublicConstants = PublicConstants
@@ -29,16 +34,17 @@ export default new Router({
       ]
     },
     {
-      path: '/',
+      path: '/adminHome',
       name: '/adminHome',
       component: AdminHome,
       children: [
-        { path: '/admin/parkingLot', name: 'parkingLotForAdmin', component: ParkingLot },
-        { path: '/admin/parkingBoy', name: 'parkingBoyForAdmin', component: ParkingBoy },
-        { path: '/admin/employee', name: 'employeeForAdmin', component: Employee },
-        { path: '/admin/parkingLotDashboard', name: 'parkingLotDashboardForAdmin', component: ParkingLotDashboard },
-        { path: '/admin/parkingOrder', name: 'parkingOrderForAdmin', component: ParkingOrder }
-      ]
+        { path: '/adminParkingLot', name: 'adminParkingLot', component: AdminParkingLot },
+        { path: '/adminParkingBoy', name: 'adminParkingBoy', component: AdminParkingBoy },
+        { path: '/adminEmployee', name: 'adminEmployee', component: AdminEmployee },
+        { path: '/adminParkingLotDashboard', name: 'adminParkingLotDashboard', component: AdminParkingLotDashboard },
+        { path: '/adminParkingOrder', name: 'adminParkingOrder', component: AdminParkingOrder }
+      ],
+      redirect: '/adminEmployee'
     }
   ]
 })

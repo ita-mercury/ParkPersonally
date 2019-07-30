@@ -64,6 +64,10 @@
     width: 100%;
 }
 
+.employee-div-operation-div{
+    width: 17%;
+    margin-bottom: 3px;
+}
 .parking-boy-div .ivu-table-wrapper{
     overflow: visible;
 }

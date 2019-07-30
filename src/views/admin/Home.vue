@@ -4,24 +4,24 @@
       <header-view></header-view>
       <Layout>
         <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-          <Menu @on-select="selectItem" active-name="parkingLot" theme="dark" width="auto">
-            <MenuItem name="employee">
+          <Menu @on-select="selectItem" active-name="adminEmployee" theme="dark" width="auto">
+            <MenuItem name="adminEmployee">
               <Icon type="ios-navigate"></Icon>
               <span>员工管理</span>
             </MenuItem>
-            <MenuItem name="parkingLot">
+            <MenuItem name="adminParkingLot">
               <Icon type="ios-search"></Icon>
               <span>停车场管理</span>
             </MenuItem>
-            <MenuItem name="parkingBoy">
+            <MenuItem name="adminParkingBoy">
               <Icon type="ios-settings"></Icon>
               <span>停车员管理</span>
             </MenuItem>
-            <MenuItem name="parkingLotDashboard">
+            <MenuItem name="adminParkingLotDashboard">
               <Icon type="ios-settings"></Icon>
               <span>停车场 Dashboard</span>
             </MenuItem>
-            <MenuItem name="parkingOrder">
+            <MenuItem name="adminParkingOrder">
               <Icon type="ios-settings"></Icon>
               <span>订单管理</span>
             </MenuItem>

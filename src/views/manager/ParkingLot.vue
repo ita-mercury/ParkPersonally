@@ -6,9 +6,7 @@
       <template slot-scope="{ row }" slot="id">
         <strong>{{ row.id }}</strong>
       </template>
-      <template slot-scope="{ row, index }" slot="name">
-<!--        <Input  v-model="parkingLotsOfManager[index].name" v-if="row.isEdit"/>-->
-<!--        <span v-else>{{row.name}}</span>-->
+      <template slot-scope="{ row }" slot="name">
         <span >{{row.name}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="capacity">

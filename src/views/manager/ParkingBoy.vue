@@ -142,9 +142,10 @@ export default {
         title: 'Title',
         content: '<p>你确定要解冻这位哥吗?</p><p>你真的确定要解冻这位哥吗?</p>',
         onOk: () => {
-          this.$store.commit('unFreezeParkingBoy', index)
           let parkingBoy = this.parkingBoys[index]
+          parkingBoy['status'] = 0
           this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
+            this.$store.commit('unFreezeParkingBoy', { index: index, status: response.data.status })
           }).catch(() => {})
           this.$Message.info('你把这位哥解冻了')
         },
