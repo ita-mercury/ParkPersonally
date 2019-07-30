@@ -63,3 +63,7 @@
 .parking-lot-div .input-number{
     width: 100%;
 }
+
+.parking-boy-div .ivu-table-wrapper{
+    overflow: visible;
+}

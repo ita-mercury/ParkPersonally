@@ -1,5 +1,5 @@
 <template>
-  <div class="parking-lot-div">
+  <div class="parking-boy-div">
     <Table border :columns="columns" :data="parkingBoys">
       <template slot-scope="{ row }" slot="status">
         <span>{{PublicConstants.ParkingBoyStatus[row.status]}}</span>
@@ -7,23 +7,22 @@
       <template slot-scope="{ row, index }" slot="tag">
         <div>
           <div v-if="!row.isEdit">
-            <Tag v-for="tag in row.tags" v-bind:key="tag.id" color="primary">{{tag.feature}}</Tag>
+            <Tag v-for="tag in row.tags" v-bind:key="tag.id" >{{tag.feature}}</Tag>
           </div>
           <div v-else>
-            <Select v-model="tagsForBoy" filterable multiple>
+            <Select v-model="tagsForBoy"  filterable multiple>
               <Option v-for="tag in AllTags" :value="tag.id" :key="tag.id">{{ tag.feature }}</Option>
             </Select>
           </div>
         </div>
       </template>
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="edit(index)" v-if="!row.isEdit">修改</Button>
+        <Button type="primary" size="small" style="margin-right: 5px" @click="edit(index)" v-if="!row.isEdit">修改标签</Button>
         <Button type="success" size="small" style="margin-right: 5px" @click="save(index)" v-else>保存</Button>
         <Button type="error" size="small" @click="freeze(index)" v-if="!(row.status === 0)">注销</Button>
         <Button type="success" size="small" style="margin-right: 5px" @click="unfreeze(index)" v-else>解冻</Button>
       </template>
     </Table>
-    <Button type="error" class="new-btn" size="large">+</Button>
   </div>
 </template>
 
@@ -36,7 +35,7 @@ export default {
     return {
       parkingBoys: [],
       AllTags: [],
-      tagsForBoy: this.getTagsOfParkingBoy,
+      tagsForBoy: [],
       columns: [
         {
           title: '员工id',
@@ -56,11 +55,6 @@ export default {
           key: 'status'
         },
         {
-          title: '标签',
-          slot: 'tag',
-          key: 'tag'
-        },
-        {
           title: '管理停车场',
           type: 'expand',
           slot: 'parkingLot',
@@ -75,7 +69,13 @@ export default {
           }
         },
         {
-          title: 'Action',
+          title: '标签',
+          slot: 'tag',
+          width: 300,
+          key: 'tag'
+        },
+        {
+          title: '操作',
           slot: 'action',
           width: 150,
           align: 'center'
@@ -105,14 +105,21 @@ export default {
     edit (index) {
       let parkingBoy = this.parkingBoys[index]
       parkingBoy['isEdit'] = true
+      this.tagsForBoy = parkingBoy.tags.map(item => {
+        return item.id
+      })
       this.$set(this.parkingBoys, index, parkingBoy)
     },
     save (index) {
+      this.tagsForBoy = this.tagsForBoy.map(id => {
+        return { 'id': id, 'feature': this.AllTags.filter(item => item.id === id)[0].feature }
+      })
       let parkingBoy = this.parkingBoys[index]
+      parkingBoy.tags = this.tagsForBoy
       parkingBoy['isEdit'] = false
-      this.$set(this.parkingBoys, index, parkingBoy)
-      // this.axios.put('/parking-lots/' + parkingBoy.id, parkingBoy).then((response) => {
-      // })
+      this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + parkingBoy.id + '/tags', parkingBoy.tags).then((response) => {
+        this.$set(this.parkingBoys, index, parkingBoy)
+      })
     },
     freeze (index) {
       this.$Modal.confirm({
@@ -146,9 +153,6 @@ export default {
         }
       })
     },
-    getTagsOfParkingBoy (){
-
-    }
   }
 }
 
