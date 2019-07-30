@@ -10,11 +10,11 @@ const mutations = {
   freezeParkingBoy (state, index) {
     state.parkingBoys[index].status = 0
   },
-  unFreezeParkingBoy (state, index) {
-    state.parkingBoys[index].status = 1
-  },
   getTags (state, tags) {
     state.AllTags = tags.data
+  },
+  unFreezeParkingBoy (state, payload) {
+    state.parkingBoys[payload.index].status = payload.status
   }
 }
 

@@ -6,11 +6,11 @@ import ParkingBoy from './views/manager/ParkingBoy'
 import Employee from './views/manager/Employee'
 import ParkingLotDashboard from './views/manager/ParkingLotDashboard'
 import ParkingOrder from './views/manager/ParkingOrder'
-import PublicContants from './constants/public'
+import PublicConstants from './constants/public'
 import AdminHome from './views/admin/Home'
 
 Vue.use(Router)
-Vue.prototype.PublicContants = PublicContants
+Vue.prototype.PublicConstants = PublicConstants
 
 export default new Router({
   mode: 'history',

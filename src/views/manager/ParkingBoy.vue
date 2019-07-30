@@ -2,7 +2,7 @@
   <div class="parking-lot-div">
     <Table border :columns="columns" :data="parkingBoys">
       <template slot-scope="{ row }" slot="status">
-        <span>{{PublicContants.ParkingBoyStatus[row.status]}}</span>
+        <span>{{PublicConstants.ParkingBoyStatus[row.status]}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="tag">
         <div>

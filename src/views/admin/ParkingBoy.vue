@@ -2,7 +2,7 @@
   <div class="parking-lot-div">
     <Table border :columns="columns" :data="parkingBoys">
       <template slot-scope="{ row }" slot="status">
-        <span>{{PublicContants.ParkingBoyStatus[row.status]}}</span>
+        <span>{{PublicConstants.ParkingBoyStatus[row.status]}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="action">
         <Button type="error" size="small" @click="freeze(index)" v-if="!(row.status === 0)">注销</Button>
@@ -129,9 +129,11 @@ export default {
         title: 'Title',
         content: '<p>你确定要解冻这位哥吗?</p><p>你真的确定要解冻这位哥吗?</p>',
         onOk: () => {
-          this.$store.commit('unFreezeParkingBoy', index)
+          // this.$store.commit('unFreezeParkingBoy', index)
           let parkingBoy = this.parkingBoys[index]
+          parkingBoy['status'] = 0
           this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
+            this.$store.commit('unFreezeParkingBoy', { index: index, status: response.data.status })
           }).catch((error) => {
             console.log(error)
           })
