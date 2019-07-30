@@ -68,6 +68,7 @@ export default {
       parkingLot['isEdit'] = false
       this.$set(this.parkingLotsOfManager, index, parkingLot)
       this.axios.put('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
+        this.$Message.success('修改成功')
       })
     },
     remove (index) {

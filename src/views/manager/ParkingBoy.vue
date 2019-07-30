@@ -2,7 +2,7 @@
   <div class="parking-boy-div">
     <Table border :columns="columns" :data="parkingBoys">
       <template slot-scope="{ row }" slot="status">
-        <span>{{PublicConstants.ParkingBoyStatus[row.status]}}</span>
+        <span>{{PublicConstants.ParkingBoyStatus[row.status].text}}</span>
       </template>
       <template slot-scope="{ row, index }" slot="tag">
         <div>
@@ -59,6 +59,7 @@ export default {
           type: 'expand',
           slot: 'parkingLot',
           key: 'parkingLot',
+          align: 'center',
           width: 100,
           render: (h, params) => {
             return h(TransferLot, {
@@ -119,6 +120,7 @@ export default {
       parkingBoy['isEdit'] = false
       this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + parkingBoy.id + '/tags', parkingBoy.tags).then((response) => {
         this.$set(this.parkingBoys, index, parkingBoy)
+        this.$Message.success('修改成功')
       })
     },
     freeze (index) {
@@ -162,5 +164,6 @@ export default {
 <style>
   .expand-row{
     margin-bottom: 16px;
+    background-color: #fc4604;
   }
 </style>

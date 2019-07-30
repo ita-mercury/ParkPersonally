@@ -5,7 +5,7 @@
 </style>
 
 <template>
-    <div>
+    <div class="transfer-lot-div">
         <Row class="expand">
             <Col>
             <Transfer :data="parkingLotData"
@@ -64,10 +64,8 @@ export default {
       })
       console.log(parkingLots)
       this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + this.row.id + '/parking-lots', parkingLots).then((response) => {
-        console.log(response)
-      }).catch((error) => {
-        console.log(error)
-      })
+        this.$Message.success('分配成功')
+      }).catch(() => {})
     },
 
     filterMethod (data, query) {
