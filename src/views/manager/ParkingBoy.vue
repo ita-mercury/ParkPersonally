@@ -1,13 +1,18 @@
 <template>
   <div class="parking-boy-div">
-    <Table border :columns="columns" :data="parkingBoys">
+    <Input size="large" v-model="name" @on-change="searchParkingBoy" class="parking-boy-div-input-search" search placeholder="Search By Name..." />
+    <Input size="large" v-model="number" @on-change="searchParkingBoy" class="parking-boy-div-input-search-by-number" search placeholder="Search By Number..." />
+    <Select @on-change="searchParkingBoy" size="large" v-model="tags" class="parking-boy-div-select-search-by-tags" placeholder="Tags" filterable multiple >
+      <Option v-for="item in AllTags" :value="item.id" :key="item.id">{{ item.feature }}</Option>
+    </Select>
+    <Table border :columns="columns" :data="showParkingBoys">
       <template slot-scope="{ row }" slot="status">
-        <span>{{PublicConstants.ParkingBoyStatus[row.status].text}}<Icon type="ios-radio-button-on" size="15" :color="PublicConstants.ParkingBoyStatus[row.status].color" /></span>
+        <span>{{PublicConstants.ParkingBoyStatus[row.status].text}}<Icon class="status-icon" type="ios-radio-button-on" size="15" :color="PublicConstants.ParkingBoyStatus[row.status].color" /></span>
       </template>
       <template slot-scope="{ row }" slot="tag">
         <div>
           <div v-if="!row.isEdit">
-            <Tag v-for="tag in row.tags" v-bind:key="tag.id" >{{tag.feature}}</Tag>
+            <Tag v-for="tag in row.tags" :key="tag.id" >{{tag.feature}}</Tag>
           </div>
           <div v-else>
             <Select v-model="tagsForBoy"  filterable multiple>
@@ -33,8 +38,12 @@ export default {
   components: { TransferLot },
   data () {
     return {
+      name: '',
+      number: '',
       parkingBoys: [],
+      showParkingBoys: [],
       AllTags: [],
+      tags: [],
       tagsForBoy: [],
       columns: [
         {
@@ -52,7 +61,12 @@ export default {
         {
           title: '状态',
           slot: 'status',
-          key: 'status'
+          key: 'status',
+          filters: this.PublicConstants.SearchByParkingBoyStatus,
+          filterMultiple: false,
+          filterMethod (value, row) {
+            return value === row.status
+          }
         },
         {
           title: '管理停车场',
@@ -89,8 +103,8 @@ export default {
       for (let i = 0; i < response.data.length; i++) {
         response.data[i]['isEdit'] = false
       }
-      this.$store.commit('getParkingBoys', response)
-      this.parkingBoys = this.$store.state.parkingBoys
+      this.parkingBoys = response.data
+      this.showParkingBoys = this.parkingBoys
     }).catch(() => {})
     this.axios.get('/managers/' + this.$store.state.manager.id + '/parking-lots').then((response) => {
       this.$store.commit('getParkingLots', response)
@@ -155,6 +169,15 @@ export default {
           this.$Message.info('你为什么不放过他')
         }
       })
+    },
+    searchParkingBoy () {
+      this.showParkingBoys = []
+      for (let i = 0; i < this.parkingBoys.length; i++) {
+        let parkingBoy = this.parkingBoys[i]
+        if (parkingBoy['name'].indexOf(this.name) > -1 && parkingBoy['number'].indexOf(this.number) > -1 && (parkingBoy.tags.length > 0 ? parkingBoy.tags.filter(tag => this.tags.length > 0 ? this.tags.indexOf(tag.id) > -1 : true).length > 0 : this.tags.length === 0)) {
+          this.showParkingBoys.push(parkingBoy)
+        }
+      }
     }
   }
 }
@@ -162,8 +185,4 @@ export default {
 </script>
 
 <style>
-  .expand-row{
-    margin-bottom: 16px;
-    background-color: #fc4604;
-  }
 </style>
