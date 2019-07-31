@@ -6,7 +6,7 @@
       </template>
       <template slot-scope="{ row, index }" slot="action">
         <Button type="error" size="small" @click="freeze(index)" v-if="!(row.status === 0)">注销</Button>
-        <Button type="success" size="small" style="margin-right: 5px" @click="unfreeze(index)" v-else>解冻</Button>
+        <Button type="success" size="small" @click="unfreeze(index)" v-else>解冻</Button>
       </template>
     </Table>
     <Button type="error" class="new-btn" size="large">+</Button>

@@ -20,7 +20,7 @@
         <Button type="primary" size="small" style="margin-right: 5px" @click="edit(index)" v-if="!row.isEdit">修改标签</Button>
         <Button type="success" size="small" style="margin-right: 5px" @click="save(index)" v-else>保存</Button>
         <Button type="error" size="small" @click="freeze(index)" v-if="!(row.status === 0)">注销</Button>
-        <Button type="success" size="small" style="margin-right: 5px" @click="unfreeze(index)" v-else>解冻</Button>
+        <Button type="success" size="small" @click="unfreeze(index)" v-else>解冻</Button>
       </template>
     </Table>
   </div>
