@@ -107,6 +107,7 @@ export default {
           let parkingLot = JSON.parse(JSON.stringify(this.parkingLots[index]))
           parkingLot['status'] = 0
           this.axios.patch('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
+            console.log(JSON.stringify(response.data))
             this.parkingLots[index]['status'] = 0
             this.$Message.success('你把这个停车场注销了')
           }).catch((error) => {
@@ -126,6 +127,7 @@ export default {
           let parkingLot = JSON.parse(JSON.stringify(this.parkingLots[index]))
           parkingLot['status'] = 0
           this.axios.patch('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
+            console.log(JSON.stringify(response.data))
             this.parkingLots[index]['status'] = 1
             this.$Message.success('你把这个停车场解冻了')
           }).catch((error) => {
