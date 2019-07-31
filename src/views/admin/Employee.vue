@@ -18,9 +18,6 @@
         <Input v-model="parkingBoys[index].phone" v-if="row.isEdit"/>
         <span v-else>{{row.phone}}</span>
       </template>
-      <template slot-scope="{ row }" slot="status">
-        <span>{{PublicConstants.ParkingBoyStatus[row.status]}}</span>
-      </template>
       <template slot-scope="{ row, index }" slot="action">
         <Button type="primary" size="small" style="margin-right: 5px" @click="edit(index)" v-if="!row.isEdit">修改</Button>
         <Button type="success" size="small" style="margin-right: 5px" @click="save(index)" v-else>保存</Button>
@@ -28,6 +25,43 @@
         <Button type="success" size="small" style="margin-right: 5px" @click="unfreeze(index)" v-else>解冻</Button>
       </template>
     </Table>
+    <Button type="error" class="new-btn" size="large" @click="currentRole.key===1?parkingBoyModal=true:managerModal=true">+</Button>
+    <Modal
+      title="添加停车员"
+      v-model="parkingBoyModal"
+      class-name="vertical-center-modal"
+      @on-ok="createManager"
+    >
+      <Form :model="parkingBoy" label-position="left" :label-width="100">
+        <FormItem label="停车员名字">
+          <Input v-model="parkingBoy.name" icon="ios-car"  style="width: 200px" />
+        </FormItem>
+        <FormItem label="停车员工号">
+          <Input v-model="parkingBoy.number" icon="md-car"  style="width: 200px" />
+        </FormItem>
+        <FormItem label="停车员手机号">
+          <Input v-model="parkingBoy.phone" icon="md-car"  style="width: 200px" />
+        </FormItem>
+      </Form>
+    </Modal>
+    <Modal
+      title="添加经理"
+      v-model="managerModal"
+      class-name="vertical-center-modal"
+      @on-ok="createParkingBoy"
+    >
+      <Form :model="manager" label-position="left" :label-width="100">
+        <FormItem label="经理名字">
+          <Input v-model="manager.name" icon="ios-car"  style="width: 200px" />
+        </FormItem>
+        <FormItem label="经理工号">
+          <Input v-model="manager.number" icon="md-car"  style="width: 200px" />
+        </FormItem>
+        <FormItem label="经理手机号">
+          <Input v-model="manager.phone" icon="md-car"  style="width: 200px" />
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 <script>
@@ -37,6 +71,18 @@ export default {
       parkingBoys: [],
       currentRole: { key: 1, role: '停车员' },
       roleList: [{ key: 1, role: '停车员' }, { key: 2, role: '经理' }],
+      managerModal: false,
+      parkingBoyModal: false,
+      parkingBoy: {
+        name: '',
+        number: '',
+        phone: ''
+      },
+      manager: {
+        name: '',
+        number: '',
+        phone: ''
+      },
       columns: [
         {
           title: '员工id',
@@ -58,11 +104,6 @@ export default {
           key: 'phone'
         },
         {
-          title: '状态',
-          slot: 'status',
-          key: 'status'
-        },
-        {
           title: 'Action',
           slot: 'action',
           width: 150,
@@ -80,12 +121,21 @@ export default {
     save (index) {
       let parkingBoy = this.parkingBoys[index]
       parkingBoy['isEdit'] = false
-      this.axios.put('/admin/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
-        this.$set(this.parkingBoys, index, parkingBoy)
-        this.$Modal.success({
-          title: '修改成功'
-        })
-      })
+      if (this.currentRole.key === 1) {
+        this.axios.put('/admin/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
+          this.$set(this.parkingBoys, index, parkingBoy)
+          this.$Modal.success({
+            title: '修改成功'
+          })
+        }).catch(() => {})
+      } else {
+        this.axios.put('/admin/managers/' + parkingBoy.id, parkingBoy).then((response) => {
+          this.$set(this.parkingBoys, index, parkingBoy)
+          this.$Modal.success({
+            title: '修改成功'
+          })
+        }).catch(() => {})
+      }
     },
     changeRole (role) {
       if (role === 1) {
@@ -131,6 +181,15 @@ export default {
           this.$Message.info('你为什么不放过他')
         }
       })
+    },
+    createManager () {
+      this.axios.post('managers', this.manager).then((response) => {
+        this.parkingBoys.push(response.data)
+        this.$Modal.success('创建成功')
+      })
+    },
+    createParkingBoy () {
+
     }
   },
   mounted () {

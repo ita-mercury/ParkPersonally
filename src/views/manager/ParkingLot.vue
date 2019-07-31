@@ -19,10 +19,10 @@
         <Button type="error" size="small" @click="remove(index)">注销</Button>
       </template>
     </Table>
-<!--    class="page-div">-->
-<!--    <Page :total="100" />-->
-<!--  </div>-->
-<!--  <Button type="error" class="new-btn" size="large">+</Button><div-->
+    <div class="page-div">
+      <Page :total="100" />
+      <Button type="error" class="new-btn" size="large">+</Button>
+    </div>
   </div>
 </template>
 <script>
@@ -72,7 +72,6 @@ export default {
       })
     },
     remove (index) {
-      this.parkingLots.splice(index, 1)
     },
     search () {
       this.parkingLots = this.parkingLots.filter(item => {
