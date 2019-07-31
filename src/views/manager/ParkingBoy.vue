@@ -130,6 +130,7 @@ export default {
           this.$store.commit('freezeParkingBoy', index)
           let parkingBoy = this.parkingBoys[index]
           this.axios.put('/parking-boys/' + parkingBoy.id, parkingBoy).then((response) => {
+            console.log(JSON.stringify(response))
           }).catch(() => {})
           this.$Message.info('你把这位哥注销了')
         },
