@@ -23,10 +23,25 @@
         <Button type="success" size="small" style="margin-right: 5px" @click="unfreeze(index)" v-else>解冻</Button>
       </template>
     </Table>
-<!--    class="page-div">-->
-<!--    <Page :total="100" />-->
-<!--  </div>-->
-<!--  <Button type="error" class="new-btn" size="large">+</Button><div-->
+    <div class="page-div">
+      <Page :total="100" />
+      <Button type="error" class="new-btn" size="large" @click="modal=true">+</Button>
+      <Modal
+        title="添加停车场"
+        v-model="modal"
+        class-name="vertical-center-modal"
+        @on-ok="createParkingLot"
+      >
+        <Form :model="parkingLot" label-position="left" :label-width="100">
+          <FormItem label="停车场名字">
+            <Input v-model="parkingLot.name" icon="ios-car"  style="width: 200px" />
+          </FormItem>
+          <FormItem label="容量">
+            <Input v-model="parkingLot.capacity" icon="md-car"  style="width: 200px" />
+          </FormItem>
+        </Form>
+      </Modal>
+    </div>
   </div>
 </template>
 <script>
@@ -35,6 +50,11 @@ export default {
     return {
       searchWord: '',
       parkingLots: [],
+      parkingLot: {
+        name: '',
+        capacity: ''
+      },
+      modal: false,
       manager: this.$store.state.manager,
       columns: [
         {
@@ -77,7 +97,6 @@ export default {
       parkingLot['isEdit'] = false
       this.$set(this.parkingLots, index, parkingLot)
       this.axios.put('/parking-lots/' + parkingLot.id, parkingLot).then((response) => {
-        console.log(JSON.stringify(response.data))
       })
     },
     freeze (index) {
@@ -122,6 +141,12 @@ export default {
       this.parkingLots = this.parkingLots.filter(item => {
         item.name.indexOf(this.searchWord, 0)
       })
+    },
+    createParkingLot () {
+      this.axios.post('parking-lots', this.parkingLot).then((response) => {
+        this.parkingLots.push(response.data)
+        this.$Modal.success('创建成功')
+      }).catch(() => {})
     }
   },
   mounted () {
@@ -130,10 +155,7 @@ export default {
         response.data[i]['isEdit'] = false
       }
       this.parkingLots = response.data
-    }).catch((error) => {
-      console.log(error)
-    })
+    }).catch(() => {})
   }
-
 }
 </script>

@@ -55,14 +55,12 @@ export default {
     handleChange1 (newTargetKeys) {
       this.parkingLots = this.$store.state.parkingLots
       this.targetKeys = newTargetKeys
-      console.log(newTargetKeys)
       let parkingLots = []
       newTargetKeys.forEach(item => {
         let parkinglot = {}
         parkinglot.id = item
         parkingLots.push(parkinglot)
       })
-      console.log(parkingLots)
       this.axios.put('/managers/' + this.$store.state.manager.id + '/parking-boys/' + this.row.id + '/parking-lots', parkingLots).then((response) => {
         this.$Message.success('分配成功')
       }).catch(() => {})

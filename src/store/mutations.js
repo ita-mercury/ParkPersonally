@@ -15,6 +15,9 @@ const mutations = {
   },
   unFreezeParkingBoy (state, payload) {
     state.parkingBoys[payload.index].status = payload.status
+  },
+  createParkingLot (state, parkingLot) {
+    state.parkingLots.push(parkingLot.data)
   }
 }
 
