@@ -1,7 +1,7 @@
 const ParkingBoyStatus = {
-  0: { text: '冻结', Color: '#fafafa' },
-  1: { text: '空闲', Color: '#9efc17' },
-  2: { text: '忙碌', Color: '#fc4604' }
+  0: { text: '冻结', color: '#737987' },
+  1: { text: '空闲', color: '#9efc17' },
+  2: { text: '忙碌', color: '#ed4014' }
 }
 
 const ParkingLotStatus = {

@@ -2,9 +2,9 @@
   <div class="parking-boy-div">
     <Table border :columns="columns" :data="parkingBoys">
       <template slot-scope="{ row }" slot="status">
-        <span>{{PublicConstants.ParkingBoyStatus[row.status].text}}</span>
+        <span>{{PublicConstants.ParkingBoyStatus[row.status].text}}<Icon type="ios-radio-button-on" size="15" :color="PublicConstants.ParkingBoyStatus[row.status].color" /></span>
       </template>
-      <template slot-scope="{ row, index }" slot="tag">
+      <template slot-scope="{ row }" slot="tag">
         <div>
           <div v-if="!row.isEdit">
             <Tag v-for="tag in row.tags" v-bind:key="tag.id" >{{tag.feature}}</Tag>
@@ -28,9 +28,9 @@
 
 <script>
 import TransferLot from '../../components/TransferParkingLot'
-import TransferTag from '../../components/TransferTag'
 export default {
-  components: { TransferLot, TransferTag },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { TransferLot },
   data () {
     return {
       parkingBoys: [],
@@ -91,7 +91,6 @@ export default {
       }
       this.$store.commit('getParkingBoys', response)
       this.parkingBoys = this.$store.state.parkingBoys
-      console.log(JSON.stringify(this.parkingBoys))
     }).catch(() => {})
     this.axios.get('/managers/' + this.$store.state.manager.id + '/parking-lots').then((response) => {
       this.$store.commit('getParkingLots', response)
@@ -155,7 +154,7 @@ export default {
           this.$Message.info('你为什么不放过他')
         }
       })
-    },
+    }
   }
 }
 

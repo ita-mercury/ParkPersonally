@@ -11,7 +11,7 @@
                   <span>{{parkingLot.capacity-parkingLot.restCapacity}}/{{parkingLot.capacity}}</span>
                 </i-circle>
               </p>
-              <p style="text-align:center ">停车情况</p>
+              <p style="text-align: center">当前停车情况</p>
             </Col>
             <Col span="11" offset="1">
 <!--              <p v-for="(parkingBoy, index) in parkingLot.parkingBoys" :key="index">停车员: {{parkingBoy.name}}</p>-->
