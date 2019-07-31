@@ -9,7 +9,9 @@
 export default {
   name: 'app',
   mounted () {
-
+    // if (this.axios.defaults.headers.common['Authorization'] === undefined) {
+    //   this.$router.push({ name: 'login' })
+    // }
   }
 }
 </script>

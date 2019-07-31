@@ -22,6 +22,7 @@
 
 .layout-header-logo-div{
     float: left;
+    height: 100%;
 }
 
 .layout-header-user-div{
@@ -131,4 +132,53 @@
 .parking-lot-dashboard-div-row{
     margin-bottom: 20px;
     position: relative;
+}
+
+.layout-header-logo-div .span{
+    color: white;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.login-div{
+    width: 100%;
+}
+
+.login-div .logo{
+    width: 50%;
+    text-align: center;
+    margin: 200px auto 50px;
+}
+
+.login-div .logo-img{
+    width: 130px;
+}
+
+.login-div .form-div{
+    width: 400px;
+    margin: 0 auto;
+}
+
+.login-div .login-form-item-submit{
+    text-align: center;
+}
+
+.login-form-item-submit button{
+    width: 400px;
+}
+
+.login-div .radio-icon{
+    width: 13px;
+    top: 1px;
+    position: relative;
+}
+
+.login-div .manager-radio{
+    margin-left: 20px;
+}
+
+.login-div .role-radio-group{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
 }

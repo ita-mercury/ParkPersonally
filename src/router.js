@@ -13,6 +13,7 @@ import AdminParkingBoy from './views/admin/ParkingBoy'
 import AdminParkingLot from './views/admin/ParkingLot'
 import AdminParkingLotDashboard from './views/admin/ParkingLotDashboard'
 import AdminParkingOrder from './views/admin/ParkingOrder'
+import Login from './views/Login'
 
 Vue.use(Router)
 Vue.prototype.PublicConstants = PublicConstants
@@ -21,6 +22,11 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
     {
       path: '/',
       name: 'home',
