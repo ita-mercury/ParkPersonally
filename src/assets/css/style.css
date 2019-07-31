@@ -60,6 +60,40 @@
     margin-bottom: 5px;
 }
 
+.parking-boy-div .parking-boy-div-select-search-by-status{
+    width: 10%;
+    float: left;
+}
+
+.parking-boy-div .parking-boy-div-select-search-by-tags{
+    width: 20%;
+    float: left;
+    margin-right: 20px;
+}
+
+.parking-boy-div .parking-boy-div-input-search-by-number{
+    width: 25%;
+    margin-bottom: 5px;
+    float: left;
+    margin-right: 20px;
+}
+
+.parking-boy-div .ivu-table-wrapper{
+    float: left;
+    width: 100%;
+}
+
+.parking-boy-div .parking-boy-div-input-search{
+    width: 25%;
+    margin-bottom: 5px;
+    float: left;
+    margin-right: 20px;
+}
+
+.parking-boy-div .ivu-transfer{
+    width: 50%;
+}
+
 .parking-lot-div .input-number{
     width: 100%;
 }
@@ -79,3 +113,8 @@
     margin: 0 auto;
 }
 
+.parking-boy-div .status-icon{
+    margin-left: 2px;
+    top: -1px;
+    position: relative;
+}
