@@ -252,7 +252,7 @@ export default {
         content: '<p>你确定要解冻这位哥吗?</p><p>你真的确定要解冻这位哥吗?</p>',
         onOk: () => {
           let employee = this.employees[index]
-          employee['status'] = 0
+          employee['status'] = 1
           this.axios.put((this.currentRole.key === 1 ? '/parking-boys/' : '/managers/') + employee.id, employee).then((response) => {
             this.employees[index]['status'] = response.data.status
             this.$Message.info('你把这位哥解冻了')
