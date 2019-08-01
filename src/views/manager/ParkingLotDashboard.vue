@@ -6,15 +6,17 @@
           <p slot="title">{{parkingLot.name}}</p>
           <Row>
             <Col span="11">
-              <p>
+              <div class="circle-div">
                 <i-circle :percent="getRate(parkingLot)" >
                   <span>{{parkingLot.capacity-parkingLot.restCapacity}}/{{parkingLot.capacity}}</span>
                 </i-circle>
-              </p>
-              <p style="text-align: center">当前停车情况</p>
+              </div>
+              <div class="circle-span">当前停车情况</div>
             </Col>
             <Col span="11" offset="1">
-              <p v-for="(parkingBoy, index) in parkingLot.parkingBoys" :key="index">停车员: {{parkingBoy.name}}</p>
+              <div>
+                <p v-for="(parkingBoy, index) in parkingLot.parkingBoys" :key="index">停车员: {{parkingBoy.name}}</p>
+              </div>
             </Col>
           </Row>
         </Card>
